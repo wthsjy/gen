@@ -114,12 +114,12 @@ func (c *Column) buildGormTag() field.GormTag {
 	if dtValue := c.defaultTagValue(); c.needDefaultTag(dtValue) { // cannot set default tag for primary key
 		tag.Set(field.TagKeyGormDefault, dtValue)
 	}
-	if comment, ok := c.Comment(); ok && comment != "" {
-		if c.multilineComment() {
-			comment = strings.ReplaceAll(comment, "\n", "\\n")
-		}
-		tag.Set(field.TagKeyGormComment, comment)
-	}
+	// if comment, ok := c.Comment(); ok && comment != "" {
+	// 	if c.multilineComment() {
+	// 		comment = strings.ReplaceAll(comment, "\n", "\\n")
+	// 	}
+	// 	tag.Set(field.TagKeyGormComment, comment)
+	// }
 	return tag
 }
 
@@ -134,7 +134,7 @@ func (c *Column) needDefaultTag(defaultTagValue string) bool {
 	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64, reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Float32, reflect.Float64:
 		return defaultTagValue != "0"
 	case reflect.String:
-		return defaultTagValue != ""
+		return false
 	case reflect.Struct:
 		return strings.Trim(defaultTagValue, "'0:- ") != ""
 	}
